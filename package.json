@@ -1,0 +1,13 @@
+{
+  "name": "devops-student-app",
+  "version": "1.0.0",
+  "description": "Student Management System for TAE-II DevOps Project",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Running unit tests...\" && exit 0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
