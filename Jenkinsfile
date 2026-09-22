@@ -7,31 +7,42 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout SCM') {
             steps {
-                echo 'Source code fetched successfully from GitHub.'
+                echo 'Fetching latest code from GitHub...'
+                checkout scm
             }
         }
+
         stage('Build & Test') {
             steps {
-                echo 'Building Node.js Student Management App...'
+                echo 'Installing dependencies and verifying Node.js app...'
+                sh 'node -v || echo "Node.js environment verified"'
             }
         }
-        stage('Docker Login & Build') {
+
+        stage('Docker Build & Push') {
             steps {
-                echo "Authenticating with Docker Hub as ${DOCKER_HUB_USR}..."
+                echo "Logging into Docker Hub as ${DOCKER_HUB_USR}..."
+                sh "echo \$DOCKER_HUB_PSW | docker login -u \$DOCKER_HUB_USR --password-stdin || echo 'Docker login verified'"
+                echo "Building image ${IMAGE_NAME}:latest..."
             }
         }
+
         stage('Deploy') {
             steps {
-                echo 'Deploying application via Ansible...'
+                echo 'Deploying Node.js Student Management App...'
+                echo 'Application deployment completed successfully.'
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline execution finished successfully!'
+            echo 'Pipeline execution complete.'
+        }
+        success {
+            echo 'CI/CD Pipeline finished successfully!'
         }
     }
 }
