@@ -1,0 +1,13 @@
+---
+- name: Deploy Student Management Application via Docker
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Ensure older container is stopped and removed
+      shell: |
+        docker stop student-app || true
+        docker rm student-app || true
+
+    - name: Run updated Docker container
+      shell: |
+        docker run -d --name student-app -p 3000:3000 suhanasayyad17/devops-student-app:latest
