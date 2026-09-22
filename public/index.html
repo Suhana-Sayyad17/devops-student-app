@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f6f9; padding: 30px; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #007bff; padding-bottom: 15px; margin-bottom: 20px; }
+        .header h1 { font-size: 24px; color: #007bff; }
+        .badge { background: #28a745; color: white; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .form-group { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; margin-bottom: 25px; }
+        input, select, button { padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        button { background-color: #007bff; color: white; border: none; cursor: pointer; transition: 0.2s; }
+        button:hover { background-color: #0056b3; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; color: #495057; }
+        .btn-delete { background-color: #dc3545; padding: 5px 10px; font-size: 12px; color: white; border-radius: 4px; }
+        .btn-delete:hover { background-color: #bd2130; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🎓 Student Management System</h1>
+        <span class="badge">Pipeline: CI/CD Active</span>
+    </div>
+
+    <!-- Add Student Form -->
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Student Name" required>
+        <input type="text" id="roll" placeholder="Roll Number" required>
+        <select id="branch">
+            <option value="Computer Science">Computer Science</option>
+            <option value="Information Technology">Information Technology</option>
+            <option value="AI & Data Science">AI & Data Science</option>
+            <option value="ENTC">ENTC</option>
+        </select>
+        <button onclick="addStudent()">Add Student</button>
+    </div>
+
+    <!-- Student List Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Branch</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="studentTable">
+            <tr>
+                <td>101</td>
+                <td>Suhana Sayyad</td>
+                <td>Computer Science</td>
+                <td><button class="btn-delete" onclick="deleteRow(this)">Delete</button></td>
+            </tr>
+            <tr>
+                <td>102</td>
+                <td>Rahul Sharma</td>
+                <td>Information Technology</td>
+                <td><button class="btn-delete" onclick="deleteRow(this)">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function addStudent() {
+        const name = document.getElementById('name').value;
+        const roll = document.getElementById('roll').value;
+        const branch = document.getElementById('branch').value;
+
+        if(!name || !roll) { alert('Please enter both name and roll number!'); return; }
+
+        const table = document.getElementById('studentTable');
+        const row = table.insertRow();
+        row.innerHTML = `
+            <td>${roll}</td>
+            <td>${name}</td>
+            <td>${branch}</td>
+            <td><button class="btn-delete" onclick="deleteRow(this)">Delete</button></td>
+        `;
+
+        document.getElementById('name').value = '';
+        document.getElementById('roll').value = '';
+    }
+
+    function deleteRow(btn) {
+        btn.closest('tr').remove();
+    }
+</script>
+
+</body>
+</html>
