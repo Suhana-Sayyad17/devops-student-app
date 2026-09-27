@@ -1,4 +1,5 @@
 let students = [];
+let sortDirection = true; // true = ascending, false = descending
 
 // ===============================
 // SECTION NAVIGATION
@@ -97,56 +98,7 @@ async function loadStudents() {
 
         students = await response.json();
 
-        const table =
-            document.getElementById('studentTable');
-
-        if (!table) {
-            return;
-        }
-
-        if (students.length === 0) {
-
-            table.innerHTML =
-                '<tr><td colspan="7">No students found.</td></tr>';
-
-            return;
-        }
-
-        table.innerHTML = students.map(student => `
-
-            <tr>
-
-                <td>${escapeHTML(student.rollNo)}</td>
-
-                <td>${escapeHTML(student.name)}</td>
-
-                <td>${escapeHTML(student.department)}</td>
-
-                <td>${escapeHTML(student.year)}</td>
-
-                <td>${student.attendance}%</td>
-
-                <td>${student.marks}%</td>
-
-                <td>
-
-                    <button
-                        class="edit"
-                        onclick="editStudent(${student.id})">
-                        Edit
-                    </button>
-
-                    <button
-                        class="danger"
-                        onclick="deleteStudent(${student.id})">
-                        Delete
-                    </button>
-
-                </td>
-
-            </tr>
-
-        `).join('');
+        renderStudentTable(students);
 
     } catch (error) {
 
@@ -154,6 +106,87 @@ async function loadStudents() {
 
         toast('Unable to load student records');
     }
+}
+
+
+// ===============================
+// RENDER STUDENT TABLE
+// ===============================
+
+function renderStudentTable(studentList) {
+    const table = document.getElementById('studentTable');
+
+    if (!table) {
+        return;
+    }
+
+    if (studentList.length === 0) {
+        table.innerHTML =
+            '<tr><td colspan="7">No students found.</td></tr>';
+        return;
+    }
+
+    table.innerHTML = studentList.map(student => `
+        <tr>
+            <td>${escapeHTML(student.rollNo)}</td>
+            <td>${escapeHTML(student.name)}</td>
+            <td>${escapeHTML(student.department)}</td>
+            <td>${escapeHTML(student.year)}</td>
+            <td>${getAttendanceBadge(student.attendance)}</td>
+            <td>${student.marks}%</td>
+            <td>
+                <button
+                    class="edit"
+                    onclick="editStudent(${student.id})">
+                    Edit
+                </button>
+                <button
+                    class="danger"
+                    onclick="deleteStudent(${student.id})">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+
+// ===============================
+// ATTENDANCE RISK STATUS HELPER
+// ===============================
+
+function getAttendanceBadge(attendance) {
+    const percentage = Number(attendance || 0);
+    if (percentage < 75) {
+        return `<span style="color: #d9534f; font-weight: bold;">${percentage}% (Low)</span>`;
+    }
+    return `<span style="color: #28a745; font-weight: bold;">${percentage}%</span>`;
+}
+
+
+// ===============================
+// ADVANCED TABLE SORTING
+// ===============================
+
+function sortStudents(field) {
+    if (!students || students.length === 0) return;
+
+    students.sort((a, b) => {
+        let valA = a[field];
+        let valB = b[field];
+
+        if (typeof valA === 'string') {
+            valA = valA.toLowerCase();
+            valB = valB.toLowerCase();
+        }
+
+        if (valA < valB) return sortDirection ? -1 : 1;
+        if (valA > valB) return sortDirection ? 1 : -1;
+        return 0;
+    });
+
+    sortDirection = !sortDirection;
+    renderStudentTable(students);
 }
 
 
@@ -546,9 +579,34 @@ function resetForm() {
 // ===============================
 
 function exportCSV() {
+    if (!students || students.length === 0) {
+        toast('No student records available to export');
+        return;
+    }
 
-    window.location.href =
-        '/api/students/export';
+    const headers = ["ID", "Roll No", "Name", "Department", "Year", "Attendance (%)", "Marks (%)"];
+    const rows = students.map(s => [
+        s.id,
+        `"${s.rollNo}"`,
+        `"${s.name}"`,
+        `"${s.department}"`,
+        `"${s.year}"`,
+        s.attendance,
+        s.marks
+    ]);
+
+    const csvContent = "data:text/csv;charset=utf-8," 
+        + [headers.join(","), ...rows.map(row => row.join(","))].join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `Student_Records_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    toast('Student records exported to CSV');
 }
 
 

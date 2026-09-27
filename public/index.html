@@ -61,8 +61,13 @@
     <table>
       <thead>
         <tr>
-          <th>Roll No</th><th>Name</th><th>Department</th><th>Year</th>
-          <th>Attendance</th><th>Marks</th><th>Actions</th>
+          <th onclick="sortStudents('rollNo')" style="cursor: pointer;">Roll No ↕</th>
+          <th onclick="sortStudents('name')" style="cursor: pointer;">Name ↕</th>
+          <th onclick="sortStudents('department')" style="cursor: pointer;">Department ↕</th>
+          <th onclick="sortStudents('year')" style="cursor: pointer;">Year ↕</th>
+          <th onclick="sortStudents('attendance')" style="cursor: pointer;">Attendance ↕</th>
+          <th onclick="sortStudents('marks')" style="cursor: pointer;">Marks ↕</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody id="studentTable"></tbody>

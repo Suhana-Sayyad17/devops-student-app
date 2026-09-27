@@ -33,6 +33,30 @@
       "attendance": 90,
       "marks": 90,
       "createdAt": "2026-09-27T07:25:27.151Z"
+    },
+    {
+      "id": 4,
+      "name": "Kalpak Magre",
+      "rollNo": "CSE024",
+      "department": "Computer Science",
+      "year": "Second Year",
+      "email": "kalpakmagre@gmail.com",
+      "phone": "",
+      "attendance": 65,
+      "marks": 78,
+      "createdAt": "2026-09-27T08:29:19.303Z"
+    },
+    {
+      "id": 5,
+      "name": "Shravani Borewar",
+      "rollNo": "CSE08",
+      "department": "Computer Science",
+      "year": "Final Year",
+      "email": "shravani@gmail.com",
+      "phone": "",
+      "attendance": 90,
+      "marks": 90,
+      "createdAt": "2026-09-27T08:30:37.967Z"
     }
   ]
 }
