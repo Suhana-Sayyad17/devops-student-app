@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Management & Academic Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>🎓 Student Management System</h1>
+    <p>DevOps-enabled Academic Management Dashboard</p>
+  </div>
+  <span id="health" class="health">Checking...</span>
+</header>
+
+<nav>
+  <button class="active" onclick="showSection('dashboard', this)">Dashboard</button>
+  <button onclick="showSection('students', this)">Students</button>
+  <button onclick="showSection('add', this)">Add Student</button>
+  <button onclick="exportCSV()">Export CSV</button>
+</nav>
+
+<main>
+<section id="dashboard" class="section">
+  <h2>Academic Dashboard</h2>
+  <div class="cards">
+    <div class="card"><span>Total Students</span><strong id="total">0</strong></div>
+    <div class="card"><span>Average Attendance</span><strong id="attendance">0%</strong></div>
+    <div class="card"><span>Average Marks</span><strong id="marks">0%</strong></div>
+    <div class="card"><span>Departments</span><strong id="departments">0</strong></div>
+  </div>
+
+  <div class="panel">
+    <h3>DevOps Project Features</h3>
+    <div class="feature-grid">
+      <div>✓ Git/GitHub Version Control</div>
+      <div>✓ Jenkins CI/CD Pipeline</div>
+      <div>✓ Automated Unit/API Testing</div>
+      <div>✓ Docker Containerization</div>
+      <div>✓ Docker Hub Image Registry</div>
+      <div>✓ Ansible Automated Deployment</div>
+      <div>✓ Health Check Endpoint</div>
+      <div>✓ Application Export / Reporting</div>
+    </div>
+  </div>
+</section>
+
+<section id="students" class="section hidden">
+  <div class="toolbar">
+    <h2>Student Records</h2>
+    <div>
+      <input id="search" placeholder="Search name, roll no or email..." oninput="loadStudents()">
+      <select id="departmentFilter" onchange="loadStudents()">
+        <option value="">All Departments</option>
+      </select>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Roll No</th><th>Name</th><th>Department</th><th>Year</th>
+          <th>Attendance</th><th>Marks</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="studentTable"></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="add" class="section hidden">
+  <h2 id="formTitle">Add New Student</h2>
+  <form id="studentForm">
+    <input type="hidden" id="studentId">
+    <div class="form-grid">
+      <label>Full Name<input id="name" required></label>
+      <label>Roll Number<input id="rollNo" required></label>
+      <label>Department
+        <select id="department" required>
+          <option value="">Select</option>
+          <option>Mechanical</option>
+          <option>Computer Science</option>
+          <option>Information Technology</option>
+          <option>Electronics</option>
+          <option>Civil</option>
+        </select>
+      </label>
+      <label>Year
+        <select id="year" required>
+          <option>First Year</option><option>Second Year</option>
+          <option>Third Year</option><option>Final Year</option>
+        </select>
+      </label>
+      <label>Email<input id="email" type="email" required></label>
+      <label>Phone<input id="phone"></label>
+      <label>Attendance %<input id="attendanceInput" type="number" min="0" max="100" value="0"></label>
+      <label>Marks %<input id="marksInput" type="number" min="0" max="100" value="0"></label>
+    </div>
+    <button class="primary" type="submit">Save Student</button>
+    <button type="button" onclick="resetForm()">Clear</button>
+  </form>
+</section>
+</main>
+
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

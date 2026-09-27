@@ -1,0 +1,38 @@
+---
+- name: Deploy Student Management Application
+  hosts: servers
+  become: false
+  vars:
+    image: "suhanasayyad17/devops-student-management:latest"
+    container_name: "student-app"
+
+  tasks:
+    - name: Pull latest Docker image
+      shell: "docker pull {{ image }}"
+
+    - name: Stop existing container
+      shell: "docker stop {{ container_name }} || true"
+
+    - name: Remove existing container
+      shell: "docker rm {{ container_name }} || true"
+
+    - name: Create application container
+      shell: >
+        docker run -d
+        --name {{ container_name }}
+        --restart unless-stopped
+        -p 3000:3000
+        {{ image }}
+
+    - name: Wait for application
+      uri:
+        url: http://localhost:3000/api/health
+        status_code: 200
+      register: result
+      retries: 10
+      delay: 3
+      until: result.status == 200
+
+    - name: Display deployment result
+      debug:
+        msg: "Student Management Application deployed successfully on port 3000"

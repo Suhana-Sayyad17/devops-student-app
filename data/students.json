@@ -1,0 +1,38 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "Aarav Sharma",
+      "rollNo": "ME001",
+      "department": "Mechanical",
+      "year": "Final Year",
+      "email": "aarav@example.com",
+      "phone": "9876543210",
+      "attendance": 88,
+      "marks": 82
+    },
+    {
+      "id": 2,
+      "name": "Srushti Patil",
+      "rollNo": "CSE002",
+      "department": "Computer Science",
+      "year": "Third Year",
+      "email": "srushti@example.com",
+      "phone": "9876501234",
+      "attendance": 92,
+      "marks": 91
+    },
+    {
+      "id": 3,
+      "name": "Srushti Bhatkulkar",
+      "rollNo": "CSE013",
+      "department": "Computer Science",
+      "year": "First Year",
+      "email": "srushtiias14@gmail.com",
+      "phone": "9511737209",
+      "attendance": 90,
+      "marks": 90,
+      "createdAt": "2026-09-27T07:25:27.151Z"
+    }
+  ]
+}
